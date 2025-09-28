@@ -11,11 +11,13 @@ import com.mongodb.lang.NonNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.*;
 @Document(collection = "journal_entries")
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class JournalEntry {
 
     @Id
@@ -24,5 +26,4 @@ public class JournalEntry {
     private String title;
     private String content;
     private LocalDateTime date;
-
 }
