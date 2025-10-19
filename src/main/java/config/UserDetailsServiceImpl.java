@@ -13,13 +13,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.adm.journalApp.entity.User;
 import com.adm.journalApp.repository.UserRepository;
 
+import lombok.Data;
+
+@Data
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     
     @Autowired
     private UserRepository userRepository;
 
-    @Override
     public UserDetails loadUserByUserName(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(userName);
         if (user != null) {
