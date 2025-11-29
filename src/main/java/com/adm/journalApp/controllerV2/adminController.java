@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.adm.journalApp.controllerV2.service.UserService;
+import com.adm.journalApp.service.UserService;
 import com.adm.journalApp.entity.User;
 
 @RestController

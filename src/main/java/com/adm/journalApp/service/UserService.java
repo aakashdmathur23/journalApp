@@ -1,4 +1,4 @@
-package com.adm.journalApp.controllerV2.service;
+package com.adm.journalApp.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,55 +16,59 @@ import com.adm.journalApp.entity.User;
 import com.adm.journalApp.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 @Slf4j
 public class UserService {
 
     @Autowired
-
     private UserRepository userRepository;
 
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public boolean saveNewUser(User user){
-
-        try{
+    public boolean saveNewUser(User user) {
+        try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
             return true;
-        }catch (Exception e){
-            log.info("hahahahahha");
+        } catch (Exception e) {
+            log.error("Error saving new user", e);
             return false;
         }
     }
 
-    public void saveAdmin(User user){
+    public void saveAdmin(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER", "ADMIN"));
         userRepository.save(user);
     }
 
-    public void saveUser(User user){
+    // FIXED — ALWAYS ENCODE PASSWORD HERE ALSO
+    public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(Arrays.asList("USER"));
+        }
         userRepository.save(user);
     }
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> findById(ObjectId id){
+    public Optional<User> findById(ObjectId id) {
         return userRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id){
+    public void deleteById(ObjectId id) {
         userRepository.deleteById(id);
     }
 
-    public User findByUserName(String userName){
+    public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
-
 }

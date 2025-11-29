@@ -1,11 +1,56 @@
-
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://aakash_dutt_mathur:<tpdpooja>@cluster0.wltqj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      uri: mongodb+srv://aakash_dutt_mathur:<tpdpooja>@cluster0.wltqj.mongodb.net/?appName=Cluster0
       auto-index-creation: true
+      database: journalApp  # optional but good practice
+  
+    redis:
+      host: localhost
+      port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: aakashdmathur@gmail.com
+    password: essm piej diqf ooaj
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
   servlet:
     context-path: /journal
+
+weather:
+  api:
+    key: cee201e85ad5c6f51de4904ab3ffc48a
+
+    kafka:
+      bootstrap-servers: ${KAFKA_SERVERS}
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      consumer:
+        group-id: weekly-sentiment-group
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        properties:
+          spring:
+            json:
+              trusted:
+                packages: net.engineeringdigest.journalApp.model
+      properties:
+        security:
+          protocol: SASL_SSL
+        sasl:
+          mechanism: PLAIN
+          jaas:
+            config: org.apache.kafka.common.security.plain.PlainLoginModule required username='X' password='X';
+        session:
+          timeout:
+            ms: 45000

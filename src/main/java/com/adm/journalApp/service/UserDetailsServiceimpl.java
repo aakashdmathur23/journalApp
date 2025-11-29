@@ -1,4 +1,4 @@
-package com.adm.journalApp.controllerV2.service;
+package com.adm.journalApp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

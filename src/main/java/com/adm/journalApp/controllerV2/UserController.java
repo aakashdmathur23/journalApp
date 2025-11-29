@@ -1,7 +1,7 @@
 package com.adm.journalApp.controllerV2;
 
-import java.util.List;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.context.annotation.Description;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,23 +9,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.adm.journalApp.controllerV2.service.UserService;
+import com.adm.journalApp.service.UserService;
 import com.adm.journalApp.entity.User;
 import com.adm.journalApp.repository.UserRepository;
+import com.adm.journalApp.service.WeatherService;
+import com.adm.journalApp.response.WeatherResponse;
 
 @RestController
+@Tag(name = "User APIs", description = "Read, Update & Delete User")
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private WeatherService weatherService;
 
     @Autowired
     private UserRepository userRepository;
@@ -47,4 +51,16 @@ public class UserController {
         userRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
+        String greeting = "";
+        if (weatherResponse != null) {
+            greeting = ", Weather feels like " + weatherResponse.getCurrent().getFeelslike();
+        }
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
+    }
+
 }

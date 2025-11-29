@@ -1,4 +1,4 @@
-package config;
+package com.adm.journalApp.config;
 
 public @interface SpringBootTest {
 

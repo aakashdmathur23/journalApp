@@ -1,4 +1,4 @@
-package com.adm.journalApp.controllerV2.service;
+package com.adm.journalApp.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,7 +8,6 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,13 +60,13 @@ public class JournalEntryService {
         boolean removed = false;
         try {
             User user = userService.findByUserName(userName);
-            removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            removed = user.getJournalEntries().removeIf(x -> x.getUserId().equals(id));
         if(removed) {
             userService.saveUser(user);
             journalEntryRepository.deleteById(id);
         }
         }catch (Exception e) {
-            log.error("error",e);
+            logger.error("error",e);
             throw new RuntimeException("An error occurred while deleting the entry.", e);
         }
         return removed;

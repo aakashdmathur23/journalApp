@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mock.*;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -19,15 +17,11 @@ import com.adm.journalApp.entity.User;
 import com.adm.journalApp.repository.UserRepository;
 import com.mongodb.assertions.Assertions;
 
-import config.UserDetailsServiceImpl;
-
-import static org.mockito.Mockito.*;
-
 @ActiveProfiles("Dev")
 public class UserDetailsServiceImplTest {
 
     @InjectMocks
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceimpl userDetailsService;
 
     @Mock
     private UserRepository userRepository;
